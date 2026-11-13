@@ -1,0 +1,17 @@
+# Uptime Kuma on the VPS. Portainer deploys this file as the stack `uptime` (OpenTofu, deploy/).
+# The data stays where it always was: the bind mount /srv/uptime/data holds the database.
+# The Docker socket lets Kuma run its Docker container monitors.
+services:
+  uptime:
+    image: louislam/uptime-kuma:2.0.0-beta.2
+    container_name: uptime
+    restart: always
+    volumes:
+      - /srv/uptime/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
